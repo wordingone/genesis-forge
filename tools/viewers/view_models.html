@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GLB Model Comparison</title>
+    <style>
+        body { margin: 0; background: #1a1a2e; font-family: Arial, sans-serif; }
+        .container { display: flex; height: 100vh; }
+        .viewer { flex: 1; position: relative; border-right: 2px solid #444; }
+        .viewer:last-child { border-right: none; }
+        .label { position: absolute; top: 10px; left: 10px; color: white; background: rgba(0,0,0,0.7); padding: 10px 15px; border-radius: 5px; z-index: 100; }
+        .label h3 { margin: 0 0 5px 0; }
+        .label p { margin: 0; font-size: 12px; opacity: 0.8; }
+        model-viewer { width: 100%; height: 100%; }
+    </style>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="viewer">
+            <div class="label">
+                <h3>Our Output (Genesis)</h3>
+                <p>TRELLIS.2 - 1024x1024 textures</p>
+                <p>285K vertices, 244K faces</p>
+            </div>
+            <model-viewer
+                id="our-model"
+                src="outputs/6e1837d4-a484-4e01-bcfc-ae7aac1104b4_model.glb"
+                camera-controls
+                auto-rotate
+                shadow-intensity="1"
+                environment-image="neutral"
+                exposure="1"
+                style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);">
+            </model-viewer>
+        </div>
+        <div class="viewer">
+            <div class="label">
+                <h3>Official Benchmark</h3>
+                <p>TRELLIS.2 - 2048x2048 textures</p>
+                <p>343K vertices, 299K faces</p>
+            </div>
+            <model-viewer
+                id="benchmark"
+                src="reference/official_output.glb"
+                camera-controls
+                auto-rotate
+                shadow-intensity="1"
+                environment-image="neutral"
+                exposure="1"
+                style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);">
+            </model-viewer>
+        </div>
+    </div>
+    <script>
+        // Sync camera between both viewers
+        const ourModel = document.getElementById('our-model');
+        const benchmark = document.getElementById('benchmark');
+
+        let syncing = false;
+        ourModel.addEventListener('camera-change', () => {
+            if (syncing) return;
+            syncing = true;
+            benchmark.cameraOrbit = ourModel.cameraOrbit;
+            benchmark.fieldOfView = ourModel.fieldOfView;
+            syncing = false;
+        });
+        benchmark.addEventListener('camera-change', () => {
+            if (syncing) return;
+            syncing = true;
+            ourModel.cameraOrbit = benchmark.cameraOrbit;
+            ourModel.fieldOfView = benchmark.fieldOfView;
+            syncing = false;
+        });
+    </script>
+</body>
+</html>

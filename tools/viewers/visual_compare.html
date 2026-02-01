@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TRELLIS.2 Visual Comparison</title>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: white;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        .model-box {
+            text-align: center;
+        }
+        model-viewer {
+            width: 600px;
+            height: 600px;
+            background-color: #2a2a2a;
+            border-radius: 8px;
+        }
+        h2 {
+            margin-bottom: 10px;
+        }
+        .label {
+            background: #333;
+            padding: 5px 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        .reference { border: 2px solid #4CAF50; }
+        .output { border: 2px solid #2196F3; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">TRELLIS.2 Output Visual Comparison</h1>
+    <div class="container">
+        <div class="model-box">
+            <h2>Reference (Official TRELLIS.2)</h2>
+            <model-viewer
+                id="reference"
+                class="reference"
+                src="../../outputs/benchmarks/verification/verify_testscript_20260131_133836.glb"
+                camera-controls
+                auto-rotate
+                shadow-intensity="1"
+                camera-orbit="45deg 55deg 2m">
+            </model-viewer>
+            <div class="label">verify_testscript (Reference)</div>
+        </div>
+        <div class="model-box">
+            <h2>Our Output</h2>
+            <model-viewer
+                id="output"
+                class="output"
+                src="../../outputs/benchmarks/gui_test/gui_pipeline_test_20260131_162958.glb"
+                camera-controls
+                auto-rotate
+                shadow-intensity="1"
+                camera-orbit="45deg 55deg 2m">
+            </model-viewer>
+            <div class="label">gui_pipeline_test (GUI Output)</div>
+        </div>
+    </div>
+    <script>
+        // Sync camera positions between viewers
+        const reference = document.getElementById('reference');
+        const output = document.getElementById('output');
+
+        reference.addEventListener('camera-change', () => {
+            const orbit = reference.getCameraOrbit();
+            output.cameraOrbit = `${orbit.theta}rad ${orbit.phi}rad ${orbit.radius}m`;
+        });
+
+        output.addEventListener('camera-change', () => {
+            const orbit = output.getCameraOrbit();
+            reference.cameraOrbit = `${orbit.theta}rad ${orbit.phi}rad ${orbit.radius}m`;
+        });
+    </script>
+</body>
+</html>

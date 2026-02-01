@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Genesis - 3D Generation</title>
+  <link rel="stylesheet" href="styles.css">
+  <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.1/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.1/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <h1>Genesis</h1>
+      <p>3D Asset Generation from Text and Images</p>
+    </header>
+
+    <div class="container">
+      <!-- Left Sidebar -->
+      <aside class="sidebar">
+        <!-- Input Section -->
+        <div class="sidebar-section">
+          <div class="section-title">Generation Mode</div>
+
+          <div class="mode-selector">
+            <button class="mode-btn active" id="textModeBtn">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+              </svg>
+              Text-to-3D
+            </button>
+            <button class="mode-btn" id="imageModeBtn">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+              </svg>
+              Image-to-3D
+            </button>
+          </div>
+
+          <!-- Text Input -->
+          <div class="input-section" id="textInput">
+            <label>Text Prompt</label>
+            <textarea id="promptInput" rows="5" placeholder="Describe your 3D object in detail...">A wooden chair shaped like an avocado</textarea>
+          </div>
+
+          <!-- Image Input -->
+          <div class="input-section hidden" id="imageInput">
+            <label>Upload Image</label>
+            <div class="image-upload" id="imageUpload">
+              <div class="upload-placeholder" id="uploadPlaceholder">
+                <svg width="48" height="48" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                </svg>
+                <p>Click to upload image</p>
+              </div>
+              <img id="imagePreview" class="image-preview hidden" />
+            </div>
+          </div>
+
+          <!-- Advanced Settings Toggle -->
+          <button class="advanced-toggle" id="advancedToggle">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+            </svg>
+            Advanced Settings
+          </button>
+
+          <!-- TEXT-TO-3D Settings (TRELLIS.1) -->
+          <div class="advanced-settings hidden" id="textAdvancedSettings">
+            <div class="pipeline-label">TRELLIS.1 Text-to-3D</div>
+
+            <div class="setting">
+              <label>Seed</label>
+              <input type="number" id="textSeedInput" value="42" />
+            </div>
+
+            <div class="setting-group">
+              <h4>Sparse Structure</h4>
+              <div class="setting">
+                <label>Steps: <span id="textSparseStepsValue">12</span></label>
+                <input type="range" id="textSparseSteps" min="4" max="50" value="12" />
+              </div>
+              <div class="setting">
+                <label>CFG: <span id="textSparseCfgValue">7.5</span></label>
+                <input type="range" id="textSparseCfg" min="1" max="15" step="0.5" value="7.5" />
+              </div>
+            </div>
+
+            <div class="setting-group">
+              <h4>SLat Appearance</h4>
+              <div class="setting">
+                <label>Steps: <span id="textSlatStepsValue">12</span></label>
+                <input type="range" id="textSlatSteps" min="4" max="50" value="12" />
+              </div>
+              <div class="setting">
+                <label>CFG: <span id="textSlatCfgValue">3.0</span></label>
+                <input type="range" id="textSlatCfg" min="1" max="15" step="0.5" value="3.0" />
+              </div>
+            </div>
+
+            <div class="setting">
+              <label>Mesh Simplify: <span id="textSimplifyValue">95%</span></label>
+              <input type="range" id="textSimplify" min="0" max="1" step="0.05" value="0.95" />
+            </div>
+
+            <div class="setting">
+              <label>Texture Size</label>
+              <select id="textTextureSize">
+                <option value="512">512x512</option>
+                <option value="1024" selected>1024x1024</option>
+                <option value="2048">2048x2048</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- IMAGE-TO-3D Settings (TRELLIS.2) -->
+          <div class="advanced-settings hidden" id="imageAdvancedSettings">
+            <div class="pipeline-label">TRELLIS.2 Image-to-3D (PBR)</div>
+
+            <div class="setting">
+              <label>Seed</label>
+              <input type="number" id="imageSeedInput" value="42" />
+            </div>
+
+            <div class="setting">
+              <label>Resolution</label>
+              <select id="imageResolution">
+                <option value="512">512</option>
+                <option value="1024" selected>1024 (recommended)</option>
+                <option value="1536">1536</option>
+              </select>
+            </div>
+
+            <div class="setting">
+              <label>Decimation Target: <span id="imageDecimationValue">300000</span></label>
+              <input type="range" id="imageDecimation" min="100000" max="500000" step="10000" value="300000" />
+            </div>
+
+            <div class="setting">
+              <label>Texture Size</label>
+              <select id="imageTextureSize">
+                <option value="1024">1024x1024</option>
+                <option value="2048" selected>2048x2048</option>
+                <option value="4096">4096x4096</option>
+              </select>
+            </div>
+
+            <div class="setting-group">
+              <h4>Stage 1: Sparse Structure</h4>
+              <div class="setting">
+                <label>Steps: <span id="imageSparseStepsValue">12</span></label>
+                <input type="range" id="imageSparseSteps" min="1" max="50" value="12" />
+              </div>
+              <div class="setting">
+                <label>Guidance: <span id="imageSparseGuidanceValue">7.5</span></label>
+                <input type="range" id="imageSparseGuidance" min="1" max="10" step="0.5" value="7.5" />
+              </div>
+              <div class="setting">
+                <label>Rescale: <span id="imageSparseRescaleValue">0.7</span></label>
+                <input type="range" id="imageSparseRescale" min="0" max="1" step="0.1" value="0.7" />
+              </div>
+              <div class="setting">
+                <label>Rescale T: <span id="imageSparseRescaleTValue">5</span></label>
+                <input type="range" id="imageSparseRescaleT" min="1" max="6" step="1" value="5" />
+              </div>
+            </div>
+
+            <div class="setting-group">
+              <h4>Stage 2: Shape Generation</h4>
+              <div class="setting">
+                <label>Steps: <span id="imageShapeStepsValue">12</span></label>
+                <input type="range" id="imageShapeSteps" min="1" max="50" value="12" />
+              </div>
+              <div class="setting">
+                <label>Guidance: <span id="imageShapeGuidanceValue">7.5</span></label>
+                <input type="range" id="imageShapeGuidance" min="1" max="10" step="0.5" value="7.5" />
+              </div>
+              <div class="setting">
+                <label>Rescale: <span id="imageShapeRescaleValue">0.5</span></label>
+                <input type="range" id="imageShapeRescale" min="0" max="1" step="0.1" value="0.5" />
+              </div>
+              <div class="setting">
+                <label>Rescale T: <span id="imageShapeRescaleTValue">3</span></label>
+                <input type="range" id="imageShapeRescaleT" min="1" max="6" step="1" value="3" />
+              </div>
+            </div>
+
+            <div class="setting-group">
+              <h4>Stage 3: Material Generation</h4>
+              <div class="setting">
+                <label>Steps: <span id="imageTexStepsValue">12</span></label>
+                <input type="range" id="imageTexSteps" min="1" max="50" value="12" />
+              </div>
+              <div class="setting">
+                <label>Guidance: <span id="imageTexGuidanceValue">1</span></label>
+                <input type="range" id="imageTexGuidance" min="1" max="10" step="0.5" value="1" />
+              </div>
+              <div class="setting">
+                <label>Rescale: <span id="imageTexRescaleValue">0.0</span></label>
+                <input type="range" id="imageTexRescale" min="0" max="1" step="0.1" value="0.0" />
+              </div>
+              <div class="setting">
+                <label>Rescale T: <span id="imageTexRescaleTValue">3</span></label>
+                <input type="range" id="imageTexRescaleT" min="1" max="6" step="1" value="3" />
+              </div>
+            </div>
+
+            <div class="setting">
+              <label>Mesh Simplify: <span id="imageSimplifyValue">95%</span></label>
+              <input type="range" id="imageSimplify" min="0" max="1" step="0.05" value="0.95" />
+            </div>
+          </div>
+
+          <button class="generate-btn" id="generateBtn">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
+            </svg>
+            Generate 3D Model
+          </button>
+        </div>
+
+        <!-- Progress Section (moved to sidebar) -->
+        <div class="sidebar-section">
+          <div class="section-title">Active Jobs</div>
+          <div id="activeJobsList" class="active-jobs-list">
+            <div class="empty-state">
+              <svg width="48" height="48" fill="currentColor" viewBox="0 0 24 24" style="opacity: 0.3;">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              </svg>
+              <p>No active jobs</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- 3D Viewer -->
+        <div class="viewer-container">
+          <div class="viewer-header">
+            <h2>3D Viewer</h2>
+            <div class="viewer-controls">
+              <button class="viewer-btn" id="resetCameraBtn" title="Reset Camera">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+                </svg>
+                Reset
+              </button>
+              <button class="viewer-btn" id="wireframeBtn" title="Toggle Wireframe">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zM4 17V7h16v10H4z"/>
+                </svg>
+                Wire
+              </button>
+            </div>
+          </div>
+          <div id="viewer3d" class="viewer-3d"></div>
+          <div class="viewer-info" id="viewerInfo">
+            No model loaded. Generate a 3D model to view it here.
+          </div>
+        </div>
+
+        <!-- Completed Jobs Section -->
+        <div class="progress-section">
+          <h3>Completed Jobs</h3>
+          <div id="completedJobsList" class="jobs-list">
+            <div class="empty-state">
+              <p>No completed jobs yet</p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
