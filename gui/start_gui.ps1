@@ -9,7 +9,7 @@ Write-Host ""
 # Paths
 $backendPath = Join-Path $PSScriptRoot "backend"
 $frontendPath = Join-Path $PSScriptRoot "frontend"
-$pythonExe = "B:\M\ArtificialArchitecture\spatial\trellis\venv311\Scripts\python.exe"
+$pythonExe = Join-Path $PSScriptRoot "..\venv\Scripts\python.exe"
 
 # Verify paths exist
 if (-not (Test-Path $backendPath)) {

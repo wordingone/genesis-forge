@@ -111,7 +111,6 @@ Genesis Forge uses the following models (downloaded to `models/`):
 # Batch launcher
 .\genesis-forge.bat
 .\genesis-forge.bat -backend
-.\genesis-forge.bat -gradio
 ```
 
 ## Troubleshooting

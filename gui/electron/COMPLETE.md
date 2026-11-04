@@ -496,7 +496,7 @@ function showNotification(message, type = 'info') {
 
 **Installation (one-time):**
 ```powershell
-cd B:\M\ArtificialArchitecture\spatial\gui\electron
+cd <repo>\gui\electron
 npm install
 ```
 

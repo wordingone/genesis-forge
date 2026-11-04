@@ -874,7 +874,7 @@ pipeline = TrellisImageTo3DPipeline.from_pretrained("microsoft/TRELLIS-image-lar
 ### 6.2 Temporary File Storage
 
 **User Directories**:
-- **Base**: `B:\M\ArtificialArchitecture\spatial\trellis\tmp`
+- **Base**: `<repo>\tmp`
 - **Per-Session**: `tmp/{session_hash}/`
 - **Lifecycle**: Created on session start, deleted on session end
 

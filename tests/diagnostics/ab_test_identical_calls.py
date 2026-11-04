@@ -2,8 +2,10 @@
 A/B Test: Both paths use IDENTICAL pipeline.run() calls (no explicit params).
 This verifies if the difference is caused by passing explicit params vs using defaults.
 """
+from pathlib import Path as _Path
+ROOT = _Path(__file__).resolve().parents[2]  # repo root
 import sys
-sys.path.insert(0, r"B:\M\ArtificialArchitecture\spatial\trellis-forge")
+sys.path.insert(0, str(ROOT))
 
 import torch
 import numpy as np
@@ -48,7 +50,7 @@ def main():
     from trellis2.pipelines import Trellis2ImageTo3DPipeline
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = Path(r"B:\M\ArtificialArchitecture\spatial\trellis-forge\outputs\benchmarks\ab_identical")
+    output_dir = Path(rf"{ROOT}\outputs\benchmarks\ab_identical")
     output_dir.mkdir(parents=True, exist_ok=True)
 
     print("=" * 80)
@@ -57,11 +59,11 @@ def main():
 
     # Load pipeline
     print("\n[1] Loading pipeline...")
-    model_path = r"B:\M\ArtificialArchitecture\spatial\trellis-forge\models\hub\TRELLIS.2-4B"
+    model_path = rf"{ROOT}\models\hub\TRELLIS.2-4B"
     pipeline = Trellis2ImageTo3DPipeline.from_pretrained(model_path)
     pipeline.cuda()
 
-    image = Image.open(r"B:\M\ArtificialArchitecture\spatial\trellis-forge\reference\spiral_input.png")
+    image = Image.open(rf"{ROOT}\reference\spiral_input.png")
 
     # ========================================================================
     # PATH A: First generation

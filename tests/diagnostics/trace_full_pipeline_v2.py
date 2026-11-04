@@ -3,6 +3,8 @@ Full TRELLIS.2 Pipeline Trace v2
 
 Traces every component with detailed mesh quality metrics at each stage.
 """
+from pathlib import Path as _Path
+ROOT = _Path(__file__).resolve().parents[2]  # repo root
 
 import sys
 import os
@@ -14,7 +16,7 @@ from pathlib import Path
 from datetime import datetime
 
 # Add paths
-sys.path.insert(0, r"B:\M\ArtificialArchitecture\spatial\trellis-forge")
+sys.path.insert(0, str(ROOT))
 
 # Disable gradients for inference
 torch.set_grad_enabled(False)
@@ -102,7 +104,7 @@ def run_traced_generation(image_path, seed=42, output_dir=None):
     from trellis2.pipelines import Trellis2ImageTo3DPipeline
 
     pipeline = Trellis2ImageTo3DPipeline.from_pretrained(
-        r"B:\M\ArtificialArchitecture\spatial\trellis-forge\models\hub\TRELLIS.2-4B"
+        rf"{ROOT}\models\hub\TRELLIS.2-4B"
     )
     pipeline.cuda()
 
@@ -251,7 +253,7 @@ def run_traced_generation(image_path, seed=42, output_dir=None):
     start = time.time()
 
     if output_dir is None:
-        output_dir = Path(r"B:\M\ArtificialArchitecture\spatial\trellis-forge\outputs\benchmarks\trace_test")
+        output_dir = Path(rf"{ROOT}\outputs\benchmarks\trace_test")
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -309,7 +311,7 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--image", default=r"B:\M\ArtificialArchitecture\spatial\trellis-forge\reference\spiral_input.png")
+    parser.add_argument("--image", default=rf"{ROOT}\reference\spiral_input.png")
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
 

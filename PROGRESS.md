@@ -693,7 +693,7 @@ User clarification: The triangular texture artifacts are a **texture mapping/UV/
 
 ```powershell
 # 1. Generate with canonical input (default)
-cd B:\M\ArtificialArchitecture\spatial\trellis-forge
+cd <repo>
 .\venv311\Scripts\python.exe test_hybrid_precision.py
 
 # Output: outputs/hybrid_precision_test/generated_spiral_input_seed42.glb
@@ -917,7 +917,7 @@ This section documents EVERY folder, file, script, import, class, and function t
 | File | Location | Purpose |
 |------|----------|---------|
 | `Microsoft.PowerShell_profile.ps1` | `C:\Users\Admin\Documents\WindowsPowerShell\` | Defines `trellis-forge` function |
-| `Start-TrellisForge.ps1` | `B:\M\ArtificialArchitecture\spatial\trellis-forge\` | Main launcher script |
+| `Start-TrellisForge.ps1` | `<repo>\` | Main launcher script |
 
 **Start-TrellisForge.ps1 Flow**:
 1. Sets `VENV_PYTHON` = `.\venv311\Scripts\python.exe`

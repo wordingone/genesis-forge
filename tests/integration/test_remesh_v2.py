@@ -6,7 +6,7 @@ Strategy for Windows (no expandable_segments):
   3. Run TRELLIS.2 pipeline with clean GPU state
 
 IMPORTANT: Run with venv python:
-  cd B:\\M\\ArtificialArchitecture\\spatial\\trellis-forge
+  cd <repo>
   .\\venv311\\Scripts\\python.exe test_remesh_v2.py
 """
 import os

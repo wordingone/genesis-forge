@@ -146,7 +146,7 @@ python --version
 
 ```powershell
 # Navigate to installation directory
-cd B:\M\ArtificialArchitecture
+cd <repo>
 
 # If not already cloned:
 # git clone <repository-url> spatial
@@ -363,7 +363,7 @@ Get-NetFirewallRule -DisplayName "TRELLIS Forge"
 
 ```powershell
 # 1. Navigate to application directory
-cd B:\M\ArtificialArchitecture\spatial\trellis
+cd <repo>
 
 # 2. Activate virtual environment
 ..\venv311\Scripts\activate
@@ -671,7 +671,7 @@ print(f"Peak VRAM: {torch.cuda.max_memory_allocated() / 1e9:.2f} GB")
 ```powershell
 # 1. Open PowerShell
 # 2. Navigate to application
-cd B:\M\ArtificialArchitecture\spatial\trellis
+cd <repo>
 
 # 3. Activate environment
 ..\venv311\Scripts\activate
@@ -696,7 +696,7 @@ Register-ScheduledTask -TaskName "TRELLIS Forge" `
     -Action $action -Trigger $trigger -RunLevel Highest
 
 # start_trellis.ps1 contents:
-# cd B:\M\ArtificialArchitecture\spatial\trellis
+# cd <repo>
 # .\venv311\Scripts\activate
 # python app.py
 ```
@@ -727,10 +727,10 @@ python app.py > logs\trellis_$(Get-Date -Format 'yyyyMMdd_HHmmss').log 2>&1
 
 ```powershell
 # Check temp directory size
-Get-ChildItem -Path "B:\M\ArtificialArchitecture\spatial\trellis\tmp" -Recurse | Measure-Object -Property Length -Sum
+Get-ChildItem -Path "<repo>\tmp" -Recurse | Measure-Object -Property Length -Sum
 
 # Clean old temp directories (if sessions not cleaned)
-Get-ChildItem -Path "B:\M\ArtificialArchitecture\spatial\trellis\tmp" | Where-Object {$_.LastWriteTime -lt (Get-Date).AddDays(-1)} | Remove-Item -Recurse -Force
+Get-ChildItem -Path "<repo>\tmp" | Where-Object {$_.LastWriteTime -lt (Get-Date).AddDays(-1)} | Remove-Item -Recurse -Force
 ```
 
 ### 7.3 Stopping the Application
@@ -765,15 +765,15 @@ Stop-Process -Name python -Force
 # Backup: Copy entire directory
 
 # 2. Application code
-# Location: B:\M\ArtificialArchitecture\spatial
+# Location: <repo>
 # Backup: Git commit + push OR zip entire directory
 
 # 3. Virtual environment (optional, can be recreated)
-# Location: B:\M\ArtificialArchitecture\spatial\venv311
+# Location: <repo>\venv
 # Restore: Run installation steps again
 
 # 4. User outputs (if saved)
-# Location: B:\M\ArtificialArchitecture\spatial\trellis\tmp
+# Location: <repo>\tmp
 # Backup: Not recommended (temp files, deleted on session end)
 ```
 
@@ -781,7 +781,7 @@ Stop-Process -Name python -Force
 
 ```powershell
 # 1. Restore application code
-cd B:\M\ArtificialArchitecture
+cd <repo>
 git clone <repository-url> spatial
 # OR: Unzip backup
 
@@ -952,8 +952,8 @@ pip check
 **Check File Permissions**:
 ```powershell
 # Test write permission to temp directory
-New-Item -Path "B:\M\ArtificialArchitecture\spatial\trellis\tmp\test.txt" -ItemType File
-Remove-Item -Path "B:\M\ArtificialArchitecture\spatial\trellis\tmp\test.txt"
+New-Item -Path "<repo>\tmp\test.txt" -ItemType File
+Remove-Item -Path "<repo>\tmp\test.txt"
 ```
 
 ### 8.3 Log Analysis
@@ -986,7 +986,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 ```powershell
 # 1. Backup current installation
-cd B:\M\ArtificialArchitecture\spatial
+cd <repo>
 git commit -am "Backup before upgrade"
 
 # 2. Pull updates
@@ -1064,11 +1064,11 @@ pip install -r requirements_v2.txt
 
 ```powershell
 # Manual cleanup
-cd B:\M\ArtificialArchitecture\spatial\trellis\tmp
+cd <repo>\tmp
 Get-ChildItem | Remove-Item -Recurse -Force
 
 # Automated cleanup (PowerShell script)
-$tempDir = "B:\M\ArtificialArchitecture\spatial\trellis\tmp"
+$tempDir = "<repo>\tmp"
 Get-ChildItem -Path $tempDir | Where-Object {
     $_.LastWriteTime -lt (Get-Date).AddHours(-1)
 } | Remove-Item -Recurse -Force
@@ -1225,7 +1225,7 @@ Get-Process python -ErrorAction SilentlyContinue
 Stop-Process -Name python -Force
 
 # 3. Restart
-cd B:\M\ArtificialArchitecture\spatial\trellis
+cd <repo>
 .\venv311\Scripts\activate
 python app.py
 ```
@@ -1237,7 +1237,7 @@ python app.py
 Get-PSDrive C | Select-Object Used,Free
 
 # 2. Clean temp directory
-Remove-Item -Path "B:\M\ArtificialArchitecture\spatial\trellis\tmp\*" -Recurse -Force
+Remove-Item -Path "<repo>\tmp\*" -Recurse -Force
 
 # 3. Clean pip cache
 pip cache purge

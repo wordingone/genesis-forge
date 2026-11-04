@@ -3,7 +3,7 @@
 ## Prerequisites
 
 - ✅ TRELLIS installed and working
-- ✅ Python 3.11 with venv at `B:\M\ArtificialArchitecture\spatial\venv311`
+- ✅ Python 3.11 with venv at `<repo>\venv`
 - ✅ Node.js 18+ installed
 - ✅ CUDA 12.8 (for GPU acceleration)
 - ✅ All dependencies installed (FastAPI, React, etc.)
@@ -15,8 +15,8 @@
 Open **Terminal 1** (PowerShell):
 
 ```powershell
-cd B:\M\ArtificialArchitecture\spatial\gui\backend
-B:\M\ArtificialArchitecture\spatial\venv311\Scripts\python.exe -m uvicorn main:app --host 127.0.0.1 --port 8000 --reload
+cd <repo>\gui\backend
+<repo>\venv\Scripts\python.exe -m uvicorn main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
 **Expected output**:
@@ -35,7 +35,7 @@ INFO:     Application startup complete.
 Open **Terminal 2** (PowerShell):
 
 ```powershell
-cd B:\M\ArtificialArchitecture\spatial\gui\frontend
+cd <repo>\gui\frontend
 npm run dev
 ```
 
@@ -138,7 +138,7 @@ npm run dev
 **Error**: `ModuleNotFoundError: No module named 'trellis'`
 ```powershell
 # Verify TRELLIS path
-cd B:\M\ArtificialArchitecture\spatial\gui\backend
+cd <repo>\gui\backend
 python test_startup.py
 ```
 
@@ -156,7 +156,7 @@ Then update frontend `vite.config.ts` proxy target to `http://localhost:8001`
 
 **Error**: `Dependencies not found`
 ```powershell
-cd B:\M\ArtificialArchitecture\spatial\gui\frontend
+cd <repo>\gui\frontend
 npm install
 ```
 

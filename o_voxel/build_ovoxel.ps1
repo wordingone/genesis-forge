@@ -2,14 +2,14 @@
 $ErrorActionPreference = "Continue"
 $env:DISTUTILS_USE_SDK = "1"
 
-Set-Location "B:\M\ArtificialArchitecture\spatial\trellis-forge\o_voxel"
+Set-Location $PSScriptRoot
 
 # Clean previous build
 if (Test-Path "build") { Remove-Item -Recurse -Force "build" }
 if (Test-Path "o_voxel.egg-info") { Remove-Item -Recurse -Force "o_voxel.egg-info" }
 
-$pythonExe = "B:\M\ArtificialArchitecture\spatial\trellis-forge\venv311\Scripts\python.exe"
-$pipExe = "B:\M\ArtificialArchitecture\spatial\trellis-forge\venv311\Scripts\pip.exe"
+$pythonExe = (Join-Path $PSScriptRoot "..\venv\Scripts\python.exe")
+$pipExe = (Join-Path $PSScriptRoot "..\venv\Scripts\pip.exe")
 
 # Build
 Write-Host "Building o_voxel..."

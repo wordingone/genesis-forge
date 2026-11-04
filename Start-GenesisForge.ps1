@@ -7,18 +7,14 @@
     Start only the FastAPI backend server
 .PARAMETER ElectronOnly
     Start only the Electron app (requires backend running)
-.PARAMETER Gradio
-    Start the Gradio web interface instead
 .EXAMPLE
     Start-GenesisForge
-    Start-GenesisForge -Gradio
     Start-GenesisForge -BackendOnly
 #>
 
 param(
     [switch]$BackendOnly,
-    [switch]$ElectronOnly,
-    [switch]$Gradio
+    [switch]$ElectronOnly
 )
 
 $ErrorActionPreference = "Stop"
@@ -72,18 +68,6 @@ function Test-Prerequisites {
     Write-Host "[OK] Prerequisites verified" -ForegroundColor Green
 }
 
-# === GRADIO MODE ===
-function Start-GradioApp {
-    Write-Host ""
-    Write-Host "Starting Gradio App (Image-to-3D)..." -ForegroundColor Yellow
-    Write-Host "  URL: http://127.0.0.1:7860" -ForegroundColor Gray
-
-    Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location '$GENESIS_ROOT'; Write-Host 'Genesis Forge - Gradio' -ForegroundColor Cyan; & '$VENV_PYTHON' app.py"
-
-    Start-Sleep -Seconds 3
-    Start-Process "http://127.0.0.1:7860"
-}
-
 # === BACKEND SERVER ===
 function Start-Backend {
     Write-Host ""
@@ -135,12 +119,7 @@ function Wait-ForBackend {
 # === MAIN ===
 Test-Prerequisites
 
-if ($Gradio) {
-    Start-GradioApp
-    Write-Host ""
-    Write-Host "Gradio starting. Press Ctrl+C in that window to stop." -ForegroundColor Green
-}
-elseif ($BackendOnly) {
+if ($BackendOnly) {
     Start-Backend
     Write-Host ""
     Write-Host "Backend starting in new window." -ForegroundColor Green

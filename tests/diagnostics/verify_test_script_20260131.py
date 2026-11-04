@@ -4,9 +4,11 @@ Run with: .\venv311\Scripts\python.exe tests\diagnostics\verify_test_script_2026
 
 This replicates quick_verify.py but with timestamped output for comparison.
 """
+from pathlib import Path as _Path
+ROOT = _Path(__file__).resolve().parents[2]  # repo root
 
 import sys
-sys.path.insert(0, r"B:\M\ArtificialArchitecture\spatial\trellis-forge")
+sys.path.insert(0, str(ROOT))
 
 import torch
 import numpy as np
@@ -30,13 +32,13 @@ def run_verify():
 
     print("Loading pipeline...")
     pipeline = Trellis2ImageTo3DPipeline.from_pretrained(
-        r"B:\M\ArtificialArchitecture\spatial\trellis-forge\models\hub\TRELLIS.2-4B"
+        rf"{ROOT}\models\hub\TRELLIS.2-4B"
     )
     pipeline.cuda()
 
     print("\nRunning generation (NO explicit sampler params - uses 100% internal defaults)...")
     from PIL import Image
-    image = Image.open(r"B:\M\ArtificialArchitecture\spatial\trellis-forge\reference\spiral_input.png")
+    image = Image.open(rf"{ROOT}\reference\spiral_input.png")
 
     torch.manual_seed(42)
     np.random.seed(42)
@@ -47,7 +49,7 @@ def run_verify():
         out_mesh = out_mesh[0]
 
     # Export with DEFAULTS (texture_size=2048, decimation_target=300000)
-    output_dir = Path(r"B:\M\ArtificialArchitecture\spatial\trellis-forge\outputs\benchmarks\verification")
+    output_dir = Path(rf"{ROOT}\outputs\benchmarks\verification")
     output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / f"{output_name}.glb"
 
@@ -96,7 +98,7 @@ def run_verify():
     print(f"\n--- Comparison with reference files ---")
 
     # verify_defaults.glb (the "perfect" one)
-    verify_defaults_path = Path(r"B:\M\ArtificialArchitecture\spatial\trellis-forge\outputs\benchmarks\trace_test\verify_defaults.glb")
+    verify_defaults_path = Path(rf"{ROOT}\outputs\benchmarks\trace_test\verify_defaults.glb")
     if verify_defaults_path.exists():
         vd = trimesh.load(str(verify_defaults_path))
         vd_geom = list(vd.geometry.values())[0]
@@ -106,7 +108,7 @@ def run_verify():
         print(f"verify_defaults.glb: {len(vd_geom.faces)} faces, {vd_degen} degenerate, {verify_defaults_path.stat().st_size / (1024*1024):.2f} MB")
 
     # Official reference
-    official_path = Path(r"B:\M\ArtificialArchitecture\spatial\trellis-forge\reference\spiral_official.glb")
+    official_path = Path(rf"{ROOT}\reference\spiral_official.glb")
     if official_path.exists():
         off = trimesh.load(str(official_path))
         off_geom = list(off.geometry.values())[0]

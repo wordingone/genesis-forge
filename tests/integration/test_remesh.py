@@ -1,7 +1,7 @@
 """Test TRELLIS.2 pipeline with texture fix validation and GPU monitoring.
 
 IMPORTANT: Run with venv python:
-  cd B:\\M\\ArtificialArchitecture\\spatial\\trellis-forge
+  cd <repo>
   .\\venv311\\Scripts\\python.exe test_remesh.py
 
 Resolution options (same as official TRELLIS.2):
