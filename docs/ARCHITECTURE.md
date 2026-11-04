@@ -890,7 +890,7 @@ For each camera view i in [0, 100):
                     ▼
 ┌─────────────────────────────────────────────────────────────┐
 │            Python 3.11 Virtual Environment                  │
-│  Location: B:\M\ArtificialArchitecture\spatial\venv311     │
+│  Location: <repo>\venv     │
 │                                                             │
 │  ┌─────────────────────────────────────────────────────┐   │
 │  │  Python Process (single-threaded)                   │   │

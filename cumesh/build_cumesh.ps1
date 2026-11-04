@@ -4,7 +4,7 @@ $ErrorActionPreference = "Continue"
 # Set paths
 $vsPath = "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat"
 $cudaPath = "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8"
-$cumeshDir = "B:\M\ArtificialArchitecture\spatial\trellis-forge\cumesh"
+$cumeshDir = $PSScriptRoot
 
 # Create a temporary batch script
 $batchContent = @"

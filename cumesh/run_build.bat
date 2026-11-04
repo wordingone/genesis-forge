@@ -13,7 +13,7 @@ set DISTUTILS_USE_SDK=1
 echo CUDA_HOME=%CUDA_HOME%
 echo DISTUTILS_USE_SDK=%DISTUTILS_USE_SDK%
 
-cd /d B:\M\ArtificialArchitecture\spatial\trellis-forge\cumesh
+cd /d %~dp0
 echo Building cumesh...
 pip install . --no-build-isolation -v
 echo Build complete with exit code %errorlevel%

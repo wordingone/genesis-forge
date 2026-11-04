@@ -33,7 +33,7 @@ echo.
 echo MSVC compiler found:
 cl 2>&1 | findstr /C:"Microsoft"
 
-cd /d "B:\M\ArtificialArchitecture\spatial\trellis-forge\o_voxel"
+cd /d "%~dp0"
 
 REM Clean previous build
 if exist "build" rmdir /s /q "build"
@@ -43,7 +43,7 @@ echo.
 echo Building o_voxel CUDA extension...
 echo.
 
-"B:\M\ArtificialArchitecture\spatial\trellis-forge\venv311\Scripts\python.exe" setup.py build_ext --inplace 2>&1
+"%~dp0..\venv\Scripts\python.exe" setup.py build_ext --inplace 2>&1
 
 if errorlevel 1 (
     echo.
@@ -53,7 +53,7 @@ if errorlevel 1 (
 
 echo.
 echo Installing o_voxel...
-"B:\M\ArtificialArchitecture\spatial\trellis-forge\venv311\Scripts\pip.exe" install -e . --no-build-isolation
+"%~dp0..\venv\Scripts\pip.exe" install -e . --no-build-isolation
 
 if errorlevel 1 (
     echo.

@@ -4,9 +4,11 @@ Quick verification of TRELLIS.2 export fixes:
 2. decimation_target=300000 (default, matches official HF demo)
 3. Post-UV-unwrap degenerate face removal
 """
+from pathlib import Path as _Path
+ROOT = _Path(__file__).resolve().parents[2]  # repo root
 
 import sys
-sys.path.insert(0, r"B:\M\ArtificialArchitecture\spatial\trellis-forge")
+sys.path.insert(0, str(ROOT))
 
 import torch
 import numpy as np
@@ -20,13 +22,13 @@ def run_verify():
 
     print("Loading pipeline...")
     pipeline = Trellis2ImageTo3DPipeline.from_pretrained(
-        r"B:\M\ArtificialArchitecture\spatial\trellis-forge\models\hub\TRELLIS.2-4B"
+        rf"{ROOT}\models\hub\TRELLIS.2-4B"
     )
     pipeline.cuda()
 
     print("\nRunning generation...")
     from PIL import Image
-    image = Image.open(r"B:\M\ArtificialArchitecture\spatial\trellis-forge\reference\spiral_input.png")
+    image = Image.open(rf"{ROOT}\reference\spiral_input.png")
 
     torch.manual_seed(42)
     np.random.seed(42)
@@ -36,7 +38,7 @@ def run_verify():
         out_mesh = out_mesh[0]
 
     # Export with defaults (texture_size=2048, decimation_target=300000 - matches official HF demo)
-    output_path = Path(r"B:\M\ArtificialArchitecture\spatial\trellis-forge\outputs\benchmarks\trace_test\verify_defaults.glb")
+    output_path = Path(rf"{ROOT}\outputs\benchmarks\trace_test\verify_defaults.glb")
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
     print("\nExporting with default parameters...")
@@ -66,7 +68,7 @@ def run_verify():
             print(f"Texture size: {mat.baseColorTexture.size}")
 
     # Compare with official
-    official = trimesh.load(r"B:\M\ArtificialArchitecture\spatial\trellis-forge\reference\spiral_official.glb")
+    official = trimesh.load(rf"{ROOT}\reference\spiral_official.glb")
     off_geom = list(official.geometry.values())[0]
 
     print(f"\nOfficial reference:")

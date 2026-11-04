@@ -33,7 +33,7 @@
 
 ## The Fix (Applied to TRELLIS Source)
 
-**File**: `B:\M\ArtificialArchitecture\spatial\trellis\trellis\utils\postprocessing_utils.py`
+**File**: `<repo>\trellis\utils\postprocessing_utils.py`
 
 ### Change 1: Optional nvdiffrast import (lines 5-14)
 
@@ -237,7 +237,7 @@ Same workflow, works identically
 
 ### Step 1: Check TRELLIS module loads
 ```bash
-cd B:\M\ArtificialArchitecture\spatial
+cd <repo>
 .\venv311\Scripts\python.exe -c "from trellis.utils import postprocessing_utils; print('OK')"
 ```
 
@@ -334,7 +334,7 @@ Generate a model and verify:
 If you want the highest quality textures:
 
 ```bash
-cd B:\M\ArtificialArchitecture\spatial
+cd <repo>
 git clone https://github.com/NVlabs/nvdiffrast.git
 cd nvdiffrast
 .\venv311\Scripts\pip.exe install .

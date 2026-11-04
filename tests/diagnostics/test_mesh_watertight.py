@@ -3,6 +3,8 @@ Diagnostic: Test mesh watertightness at each stage of postprocess pipeline.
 
 This identifies WHERE watertight property is lost in our Windows-compiled cumesh.
 """
+from pathlib import Path as _Path
+ROOT = _Path(__file__).resolve().parents[2]  # repo root
 
 import sys
 import torch
@@ -10,7 +12,7 @@ import numpy as np
 import trimesh
 
 # Add paths
-sys.path.insert(0, r"B:\M\ArtificialArchitecture\spatial\trellis-forge")
+sys.path.insert(0, str(ROOT))
 
 def check_watertight(vertices, faces, stage_name):
     """Check if mesh is watertight and report issues."""
@@ -78,7 +80,7 @@ def run_diagnostic():
     print("="*60)
 
     # Load a test mesh - use the reference spiral if available
-    test_glb = r"B:\M\ArtificialArchitecture\spatial\trellis-forge\outputs\benchmarks\spiral_official.glb"
+    test_glb = rf"{ROOT}\outputs\benchmarks\spiral_official.glb"
 
     try:
         loaded = trimesh.load(test_glb)

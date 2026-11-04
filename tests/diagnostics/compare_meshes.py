@@ -3,6 +3,8 @@ Diagnostic: Compare our generated mesh vs official benchmark.
 
 Identifies structural differences that could cause texture patches.
 """
+from pathlib import Path as _Path
+ROOT = _Path(__file__).resolve().parents[2]  # repo root
 
 import sys
 import numpy as np
@@ -161,13 +163,13 @@ def compare_textures(mesh1, mesh2, name1, name2):
 
 def main():
     # Paths - compare specific files
-    official_path = Path(r"B:\M\ArtificialArchitecture\spatial\trellis-forge\outputs\benchmarks\spiral_official.glb")
-    our_path = Path(r"B:\M\ArtificialArchitecture\spatial\trellis-forge\outputs\benchmarks\hybrid_precision_test\generated_spiral_input_seed42.glb")
+    official_path = Path(rf"{ROOT}\outputs\benchmarks\spiral_official.glb")
+    our_path = Path(rf"{ROOT}\outputs\benchmarks\hybrid_precision_test\generated_spiral_input_seed42.glb")
 
     our_paths = [our_path] if our_path.exists() else []
 
     # Also check for other spiral outputs
-    gen_dir = Path(r"B:\M\ArtificialArchitecture\spatial\trellis-forge\outputs\benchmarks\hybrid_precision_test")
+    gen_dir = Path(rf"{ROOT}\outputs\benchmarks\hybrid_precision_test")
     if gen_dir.exists():
         for p in gen_dir.glob("generated_spiral*.glb"):
             if p not in our_paths:

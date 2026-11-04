@@ -555,7 +555,7 @@ state = {
 ```python
 TMP_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tmp')
 ```
-- Location: `B:\M\ArtificialArchitecture\spatial\trellis\tmp`
+- Location: `<repo>\tmp`
 - Structure:
   ```
   tmp/

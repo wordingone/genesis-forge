@@ -2,9 +2,11 @@
 Debug script to compare parameter merging between test script path and GUI path.
 Verifies that guidance_interval is correctly preserved in both paths.
 """
+from pathlib import Path as _Path
+ROOT = _Path(__file__).resolve().parents[2]  # repo root
 import sys
 import os
-sys.path.insert(0, r"B:\M\ArtificialArchitecture\spatial\trellis-forge")
+sys.path.insert(0, str(ROOT))
 
 import torch
 from PIL import Image
@@ -16,7 +18,7 @@ def main():
     print("=" * 80)
 
     # Load pipeline
-    model_path = r"B:\M\ArtificialArchitecture\spatial\trellis-forge\models\hub\TRELLIS.2-4B"
+    model_path = rf"{ROOT}\models\hub\TRELLIS.2-4B"
     print(f"\nLoading pipeline from: {model_path}")
     pipeline = Trellis2ImageTo3DPipeline.from_pretrained(model_path)
 

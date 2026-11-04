@@ -20,7 +20,7 @@
 ### 1. Install Dependencies (First Time Only)
 
 ```powershell
-cd B:\M\ArtificialArchitecture\spatial\gui\electron
+cd <repo>\gui\electron
 npm install
 ```
 
@@ -188,7 +188,7 @@ The Electron app automatically:
 4. Opens GUI window when backend ready
 5. Kills backend when app closes
 
-**Backend Path**: `B:\M\ArtificialArchitecture\spatial\venv311\Scripts\python.exe`
+**Backend Path**: `<repo>\venv\Scripts\python.exe`
 **Backend Port**: 8000 (localhost only, not exposed to network)
 
 ## Performance
@@ -214,7 +214,7 @@ The Electron app automatically:
 To create a distributable .exe:
 
 ```powershell
-cd B:\M\ArtificialArchitecture\spatial\gui\electron
+cd <repo>\gui\electron
 npm run build:win
 ```
 
@@ -232,7 +232,7 @@ Output: `dist/TRELLIS GUI Setup.exe` (~150MB installer)
 
 **Error**: Backend failed to start
 - Check Python path in `main.js` line 11
-- Verify venv exists: `B:\M\ArtificialArchitecture\spatial\venv311`
+- Verify venv exists: `<repo>\venv`
 - Check backend dependencies installed
 
 **Error**: Electron not found

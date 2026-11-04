@@ -106,7 +106,7 @@ gui/
 ### Installation (First Time)
 
 ```powershell
-cd B:\M\ArtificialArchitecture\spatial\gui\electron
+cd <repo>\gui\electron
 npm install
 ```
 
@@ -332,7 +332,7 @@ Possible additions (out of scope for v1.0):
 To create `TRELLIS GUI Setup.exe`:
 
 ```powershell
-cd B:\M\ArtificialArchitecture\spatial\gui\electron
+cd <repo>\gui\electron
 npm run build:win
 ```
 
